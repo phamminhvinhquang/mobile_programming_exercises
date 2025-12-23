@@ -1,0 +1,19 @@
+* Thế nào là Nullable?
+- Trong lập trình, một biến được gọi là Nullable khi nó có khả năng chứa giá trị thực (như một con số, chuỗi) hoặc chứa giá trị null (không có gì cả).
+
+- Trong Dart, theo mặc định các biến là Non-nullable (không được phép null).
+
+- Để khai báo một biến có thể null, bạn thêm dấu hỏi chấm ? sau kiểu dữ liệu (ví dụ: String? name).
+
+* Khi nào nên / không nên dùng?
+- Nên dùng: Khi dữ liệu có thể chưa tồn tại ở thời điểm hiện tại (ví dụ: dữ liệu tải từ mạng về, thông tin người dùng không bắt buộc nhập như "biệt danh").
+
+- Không nên dùng: Đối với các giá trị bắt buộc phải có để ứng dụng hoạt động ổn định (ví dụ: ID của người dùng, các tham số cấu hình hệ thống). Lạm dụng nullable sẽ khiến code trở nên phức tạp vì phải kiểm tra null liên tục.
+
+* Cách thức xử lý null phổ biến
+
+- ? 	Nullable Type	Khai báo biến có thể nhận giá trị null.
+- ?.	Null-aware access	Truy cập thuộc tính/phương thức. Nếu biến là null, nó sẽ trả về null thay vì gây lỗi ứng dụng.
+- ??    Null-coalescing	Cung cấp một giá trị mặc định nếu biểu thức bên trái là null (ví dụ: name ?? "Khách").
+- .let	Scope function	(Trong Kotlin) Thực thi một khối lệnh chỉ khi đối tượng không null. Trong Dart thường dùng if (obj != null) { ... }.
+- !!	Bang operator	(Trong Kotlin) Khẳng định biến chắc chắn không null. Trong Dart dùng dấu !. Cần cẩn thận vì nếu nó thực sự null, ứng dụng sẽ bị crash.
