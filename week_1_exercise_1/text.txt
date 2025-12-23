@@ -1,0 +1,17 @@
+1. Mong muốn và định hướng sau khi học xong môn học
+Sau khi kết thúc môn học này, định hướng của mình bao gồm:
+
+Nắm vững kỹ năng lập trình Flutter: Hiểu rõ cách hoạt động của Widget, quản lý State và kiến trúc ứng dụng mobile đa nền tảng.
+
+Xây dựng Portfolio: Hoàn thiện ít nhất 1-2 ứng dụng thực tế để đưa lên GitHub, phục vụ cho việc ứng dụng thực tập hoặc làm đồ án.
+
+Tư duy UX/UI: Biết cách chuyển đổi từ bản thiết kế (như hình ảnh bạn cung cấp) thành một ứng dụng có giao diện mượt mà và trải nghiệm người dùng tốt.
+
+2. Tương lai của lập trình di động trong 10 năm tới
+Theo mình, lập trình di động vẫn sẽ phát triển mạnh mẽ vì những lý do sau:
+
+Thiết bị trung tâm: Điện thoại thông minh đã trở thành "vật bất ly thân". Các dịch vụ từ ngân hàng, y tế đến giáo dục đều đang dịch chuyển hoàn toàn sang mobile app.
+
+Sự lên ngôi của Cross-platform: Các framework như Flutter hay React Native ngày càng tối ưu, giúp doanh nghiệp tiết kiệm chi phí phát triển đồng thời cho cả iOS và Android.
+
+Tích hợp AI và AR: Trong 10 năm tới, ứng dụng di động sẽ không chỉ là các trang hiển thị thông tin mà là công cụ tương tác thực tế ảo (AR) và trợ lý ảo AI cá nhân hóa sâu sắc cho từng người dùng.
