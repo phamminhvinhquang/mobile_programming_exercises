@@ -82,7 +82,6 @@ class ComponentsListScreen extends StatelessWidget {
         'route': 'Row',
       },
 
-      // Controls Group (Đã thêm mục Button như yêu cầu)
       {
         'category': 'Controls',
         'title': 'Button & Input',
@@ -126,7 +125,7 @@ class ComponentsListScreen extends StatelessWidget {
             ),
           ),
 
-          // Nút Button cố định ở dưới (như đã làm ở bước trước)
+          // Nút Button cố định ở dưới
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: SizedBox(
@@ -196,7 +195,6 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   String _inputText = "";
 
-  // --- Biến trạng thái mới thêm cho phần Button/Controls ---
   bool _isChecked = false;
   bool _isSwitched = true;
   int _radioValue = 1;
@@ -258,39 +256,43 @@ class _DetailScreenState extends State<DetailScreen> {
       case 'Image':
         return Column(
           children: [
+            // Ảnh 1: banner.jpg 
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/UTH_HCMC.jpg/800px-UTH_HCMC.jpg',
+              child: Image.asset(
+                'assets/images/banner.jpg', // Đường dẫn assets
                 height: 200,
                 width: double.infinity,
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => Container(
-                  height: 200,
-                  color: Colors.grey[300],
-                  child: const Center(child: Text('Lỗi tải ảnh')),
-                ),
               ),
             ),
             const SizedBox(height: 10),
             const Text(
-              'https://jiaothongvantaitphcm.edu.vn/...',
+              'Banner trường UTH (Local Asset)',
               style: TextStyle(fontSize: 12, color: Colors.grey),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 30),
+
+            // Ảnh 2: logo.jpg (Phần In-app image)
             Container(
               height: 150,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.grey[200],
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: Colors.grey),
+                border: Border.all(color: Colors.grey.shade300),
               ),
-              child: const Icon(Icons.image, size: 80, color: Colors.grey),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  'assets/images/logo.jpg', 
+                  fit: BoxFit.contain,
+                ),
+              ),
             ),
             const SizedBox(height: 10),
-            const Text('In app', style: TextStyle(fontSize: 14)),
+            const Text('Logo UTH - In app', style: TextStyle(fontSize: 14)),
           ],
         );
 
