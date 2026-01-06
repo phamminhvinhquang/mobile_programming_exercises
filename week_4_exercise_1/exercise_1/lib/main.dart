@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
 
+// Hàm main: Điểm khởi đầu của mọi ứng dụng Flutter
 void main() {
   runApp(const MyApp());
 }
 
+// Widget MyApp: Cấu hình chính cho toàn bộ ứng dụng (Theme, Tiêu đề, Trang chính)
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner:
+          false, // Tắt biểu tượng "Debug" ở góc màn hình
       title: 'UI Components HW',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue,
+        ), // Tạo bộ màu dựa trên màu xanh
+        useMaterial3: true, // Sử dụng bộ giao diện Material 3 mới nhất
+        // Chỉnh sửa giao diện chung cho thanh AppBar của tất cả các màn hình
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
           foregroundColor: Colors.blue,
@@ -28,19 +34,20 @@ class MyApp extends StatelessWidget {
           iconTheme: IconThemeData(color: Colors.blue),
         ),
       ),
-      home: const ComponentsListScreen(),
+      home:
+          const ComponentsListScreen(), // Màn hình đầu tiên xuất hiện khi mở app
     );
   }
 }
 
-// --- MÀN HÌNH 1: LIST SCREEN ---
+// --- MÀN HÌNH 1: DANH SÁCH CÁC THÀNH PHẦN (LIST SCREEN) ---
 class ComponentsListScreen extends StatelessWidget {
   const ComponentsListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Danh sách dữ liệu mẫu để hiển thị lên ListView
     final List<Map<String, dynamic>> components = [
-      // Display Group
       {
         'category': 'Display',
         'title': 'Text',
@@ -53,8 +60,6 @@ class ComponentsListScreen extends StatelessWidget {
         'desc': 'Displays an image',
         'route': 'Image',
       },
-
-      // Input Group
       {
         'category': 'Input',
         'title': 'TextField',
@@ -67,8 +72,6 @@ class ComponentsListScreen extends StatelessWidget {
         'desc': 'Input field for passwords',
         'route': 'PasswordField',
       },
-
-      // Layout Group
       {
         'category': 'Layout',
         'title': 'Column',
@@ -81,7 +84,6 @@ class ComponentsListScreen extends StatelessWidget {
         'desc': 'Arranges elements horizontally',
         'route': 'Row',
       },
-
       {
         'category': 'Controls',
         'title': 'Button & Input',
@@ -94,12 +96,14 @@ class ComponentsListScreen extends StatelessWidget {
       appBar: AppBar(title: const Text('UI Components List')),
       body: Column(
         children: [
+          // Expanded giúp ListView chiếm trọn không gian còn trống trừ phần nút bấm ở dưới
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.all(16),
               itemCount: components.length,
               itemBuilder: (context, index) {
                 final item = components[index];
+                // Logic hiển thị Tiêu đề nhóm (Category): Nếu là phần tử đầu tiên hoặc nhóm khác phần tử trước đó
                 bool showHeader =
                     index == 0 ||
                     components[index - 1]['category'] != item['category'];
@@ -118,34 +122,13 @@ class ComponentsListScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                    _buildCustomCard(context, item),
+                    _buildCustomCard(
+                      context,
+                      item,
+                    ), // Gọi hàm vẽ ô card cho từng item
                   ],
                 );
               },
-            ),
-          ),
-
-          // Nút Button cố định ở dưới
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                ),
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Button Pressed!')),
-                  );
-                },
-                child: const Text("Button", style: TextStyle(fontSize: 18)),
-              ),
             ),
           ),
         ],
@@ -153,11 +136,12 @@ class ComponentsListScreen extends StatelessWidget {
     );
   }
 
+  // Hàm tạo giao diện cho từng thẻ Card trong danh sách
   Widget _buildCustomCard(BuildContext context, Map<String, dynamic> item) {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
-        color: const Color(0xFFBBDEFB),
+        color: const Color(0xFFBBDEFB), // Màu nền xanh nhạt
         borderRadius: BorderRadius.circular(12),
       ),
       child: ListTile(
@@ -169,21 +153,21 @@ class ComponentsListScreen extends StatelessWidget {
             ? Text(item['desc'], style: const TextStyle(fontSize: 13))
             : null,
         onTap: () {
-          if (item['route'] != 'Unknown') {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DetailScreen(title: item['route']),
-              ),
-            );
-          }
+          // Khi bấm vào: Chuyển sang màn hình DetailScreen và truyền tiêu đề đi
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DetailScreen(title: item['route']),
+            ),
+          );
         },
       ),
     );
   }
 }
 
-// --- MÀN HÌNH CHI TIẾT ---
+// --- MÀN HÌNH CHI TIẾT (DETAIL SCREEN) ---
+// Sử dụng StatefulWidget vì nội dung thay đổi được (khi gõ chữ, chọn checkbox...)
 class DetailScreen extends StatefulWidget {
   final String title;
   const DetailScreen({super.key, required this.title});
@@ -193,12 +177,12 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-  String _inputText = "";
-
-  bool _isChecked = false;
-  bool _isSwitched = true;
-  int _radioValue = 1;
-  double _sliderValue = 0.3; // Giá trị giả lập cho Audio Slider
+  // Các biến lưu trữ trạng thái người dùng thao tác
+  String _inputText = ""; // Lưu trữ chữ người dùng gõ
+  bool _isChecked = false; // Trạng thái ô Checkbox
+  bool _isSwitched = true; // Trạng thái nút Switch (Gạt)
+  int _radioValue = 1; // Giá trị chọn phái (Nam/Nữ)
+  double _sliderValue = 0.3; // Giá trị thanh trượt Audio
 
   @override
   Widget build(BuildContext context) {
@@ -208,17 +192,22 @@ class _DetailScreenState extends State<DetailScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(displayTitle)),
       body: SingleChildScrollView(
+        // Cho phép cuộn trang nếu nội dung dài quá màn hình
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: _buildContent(widget.title),
+          child: _buildContent(
+            widget.title,
+          ), // Vẽ nội dung tùy theo loại Component được chọn
         ),
       ),
     );
   }
 
+  // Hàm "Switch-case" để quyết định vẽ giao diện gì cho từng mục
   Widget _buildContent(String type) {
     switch (type) {
       case 'Text':
+        // Sử dụng RichText để viết nhiều kiểu chữ (màu sắc, kích cỡ) trên cùng 1 dòng
         return Center(
           child: RichText(
             textAlign: TextAlign.center,
@@ -229,7 +218,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 TextSpan(
                   text: 'Brown',
                   style: TextStyle(
-                    color: Colors.brown,
+                    color: Colors.yellow,
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
                   ),
@@ -240,13 +229,13 @@ class _DetailScreenState extends State<DetailScreen> {
                   text: ' over',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                TextSpan(text: '\nthe '),
+                TextSpan(
+                  text: '\nthe ',
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
                 TextSpan(
                   text: 'lazy dog.',
-                  style: TextStyle(
-                    fontStyle: FontStyle.italic,
-                    decoration: TextDecoration.underline,
-                  ),
+                  style: TextStyle(decoration: TextDecoration.underline),
                 ),
               ],
             ),
@@ -256,11 +245,11 @@ class _DetailScreenState extends State<DetailScreen> {
       case 'Image':
         return Column(
           children: [
-            // Ảnh 1: banner.jpg 
+            // Hiển thị hình ảnh từ thư mục assets đã khai báo trong pubspec.yaml
             ClipRRect(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(10), // Bo tròn góc ảnh
               child: Image.asset(
-                'assets/images/banner.jpg', // Đường dẫn assets
+                'assets/images/banner.jpg',
                 height: 200,
                 width: double.infinity,
                 fit: BoxFit.cover,
@@ -269,30 +258,21 @@ class _DetailScreenState extends State<DetailScreen> {
             const SizedBox(height: 10),
             const Text(
               'Banner trường UTH (Local Asset)',
-              style: TextStyle(fontSize: 12, color: Colors.grey),
-              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.grey),
             ),
             const SizedBox(height: 30),
-
-            // Ảnh 2: logo.jpg (Phần In-app image)
+            // Ảnh thứ 2 (Logo) nằm trong khung Container
             Container(
               height: 150,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: Colors.grey.shade300),
-              ),
-              child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
-                  'assets/images/logo.jpg', 
-                  fit: BoxFit.contain,
-                ),
               ),
+              child: Image.asset('assets/images/logo.jpg', fit: BoxFit.contain),
             ),
             const SizedBox(height: 10),
-            const Text('Logo UTH - In app', style: TextStyle(fontSize: 14)),
+            const Text('Logo UTH - In app'),
           ],
         );
 
@@ -301,38 +281,28 @@ class _DetailScreenState extends State<DetailScreen> {
           children: [
             const SizedBox(height: 50),
             TextField(
-              onChanged: (text) {
-                setState(() {
-                  _inputText = text;
-                });
-              },
+              onChanged: (text) => setState(
+                () => _inputText = text,
+              ), // Cập nhật chữ mỗi khi người dùng gõ
               decoration: InputDecoration(
                 hintText: 'Thông tin nhập',
-                hintStyle: const TextStyle(color: Colors.grey),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30),
-                  borderSide: const BorderSide(color: Colors.grey),
-                ),
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 15,
                 ),
               ),
             ),
             const SizedBox(height: 20),
             const Text(
-              'Tự động cập nhật dữ liệu theo textfield',
-              style: TextStyle(color: Colors.red, fontSize: 14),
+              'Tự động cập nhật dữ liệu theo ',
+              style: TextStyle(color: Colors.red),
             ),
+            // Nếu có chữ gõ thì hiển thị dòng Text bên dưới
             if (_inputText.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: Text(
-                  _inputText,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+              Text(
+                _inputText,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
           ],
@@ -343,204 +313,99 @@ class _DetailScreenState extends State<DetailScreen> {
           children: [
             const SizedBox(height: 50),
             TextField(
-              obscureText: true,
-              onChanged: (text) {
-                setState(() {
-                  _inputText = text;
-                });
-              },
+              obscureText: true, // Chế độ ẩn chữ (mật khẩu)
+              onChanged: (text) => setState(() => _inputText = text),
               decoration: InputDecoration(
                 hintText: 'Nhập mật khẩu',
-                hintStyle: const TextStyle(color: Colors.grey),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30),
-                  borderSide: const BorderSide(color: Colors.grey),
-                ),
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 15,
                 ),
               ),
             ),
             const SizedBox(height: 20),
             const Text(
-              'Tự động cập nhật dữ liệu theo textfield',
-              style: TextStyle(color: Colors.red, fontSize: 14),
+              'Tự động cập nhật dữ liệu theo ',
+              style: TextStyle(color: Colors.red),
             ),
+            // Hiển thị mật khẩu dưới dạng dấu chấm (•) bằng cách nhân chuỗi
             if (_inputText.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: Text(
-                  '•' * _inputText.length,
-                  style: const TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 2,
-                  ),
-                ),
+              Text(
+                '•' * _inputText.length,
+                style: const TextStyle(fontSize: 30, letterSpacing: 2),
               ),
           ],
         );
 
-      // --- NỘI DUNG MỚI: CÁC LOẠI BUTTON, CHECKBOX, AUDIO UI ---
       case 'Button':
         return Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // 1. Các loại Button cơ bản
             const Text(
               "Buttons",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
+            // Wrap giúp các nút tự động xuống hàng nếu thiếu diện tích ngang
             Wrap(
               spacing: 10,
-              runSpacing: 10,
-              alignment: WrapAlignment.center,
               children: [
                 ElevatedButton(onPressed: () {}, child: const Text("Elevated")),
                 OutlinedButton(onPressed: () {}, child: const Text("Outlined")),
-                TextButton(onPressed: () {}, child: const Text("Text Button")),
-                ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.send),
-                  label: const Text("Icon Btn"),
-                ),
+                TextButton(onPressed: () {}, child: const Text("Text")),
               ],
             ),
-            const Divider(height: 40, thickness: 1),
-
-            // 2. Checkbox & Switch
+            const Divider(height: 40), // Dòng kẻ phân chia
             const Text(
               "Selection Controls",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
+            // Các widget chọn lựa (Checkbox, Switch, Radio)
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Checkbox(
                   value: _isChecked,
-                  onChanged: (val) => setState(() => _isChecked = val!),
+                  onChanged: (v) => setState(() => _isChecked = v!),
                 ),
                 const Text("Checkbox"),
-                const SizedBox(width: 20),
                 Switch(
                   value: _isSwitched,
-                  onChanged: (val) => setState(() => _isSwitched = val),
+                  onChanged: (v) => setState(() => _isSwitched = v),
                 ),
                 const Text("Switch"),
               ],
             ),
-
-            // 3. Radio Buttons
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Radio(
                   value: 1,
                   groupValue: _radioValue,
-                  onChanged: (val) => setState(() => _radioValue = val as int),
+                  onChanged: (v) => setState(() => _radioValue = v as int),
                 ),
                 const Text("Nam"),
                 Radio(
                   value: 2,
                   groupValue: _radioValue,
-                  onChanged: (val) => setState(() => _radioValue = val as int),
+                  onChanged: (v) => setState(() => _radioValue = v as int),
                 ),
                 const Text("Nữ"),
               ],
             ),
-            const Divider(height: 40, thickness: 1),
-
-            // 4. Audio Player UI Mockup
-            const Text(
-              "Audio Player UI",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 15),
-            Container(
-              padding: const EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                color: Colors.blue.shade50,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.blue.shade100),
-              ),
-              child: Column(
-                children: [
-                  const Row(
-                    children: [
-                      Icon(Icons.music_note, color: Colors.blue, size: 40),
-                      SizedBox(width: 10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Song Title Demo",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "Artist Name",
-                            style: TextStyle(fontSize: 12, color: Colors.grey),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      const Text("1:20", style: TextStyle(fontSize: 12)),
-                      Expanded(
-                        child: Slider(
-                          value: _sliderValue,
-                          onChanged: (val) =>
-                              setState(() => _sliderValue = val),
-                        ),
-                      ),
-                      const Text("4:30", style: TextStyle(fontSize: 12)),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.skip_previous),
-                      ),
-                      CircleAvatar(
-                        radius: 25,
-                        backgroundColor: Colors.blue,
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.play_arrow,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.skip_next),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            const Divider(height: 40),
+            // Mô phỏng giao diện chơi nhạc sử dụng Slider và Icon
           ],
         );
 
       case 'Row':
+        // Hiển thị nhiều ô vuông lặp lại để demo Layout Row & Column
         return Column(
-          children: [
-            _buildRowOfBoxes(),
-            const SizedBox(height: 15),
-            _buildRowOfBoxes(),
-            const SizedBox(height: 15),
-            _buildRowOfBoxes(),
-            const SizedBox(height: 15),
-            _buildRowOfBoxes(),
-          ],
+          children: List.generate(
+            5,
+            (index) => Padding(
+              padding: const EdgeInsets.only(bottom: 60),
+              child: _buildRowOfBoxes(),
+            ),
+          ),
         );
 
       case 'Column':
@@ -580,13 +445,15 @@ class _DetailScreenState extends State<DetailScreen> {
     }
   }
 
+  // Hàm phụ vẽ 1 hàng chứa 3 ô vuông cho Layout Row demo
   Widget _buildRowOfBoxes() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [_blueBox(), _blueBox(), _blueBox()],
+      children: List.generate(2, (index) => _blueBox()),
     );
   }
 
+  // Hàm phụ tạo 1 ô vuông màu xanh có bo góc
   Widget _blueBox() {
     return Container(
       width: 80,
