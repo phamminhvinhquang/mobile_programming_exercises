@@ -456,5 +456,5 @@ class CommonLogo extends StatelessWidget {
         ),
       ],
     );
-  }
+  }firebase --version
 }
